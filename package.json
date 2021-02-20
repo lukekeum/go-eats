@@ -1,0 +1,12 @@
+{
+  "name": "go-eats",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/lukekeum/go-eats",
+  "author": "lukekeum <lukekeum11@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
