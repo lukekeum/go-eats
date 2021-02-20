@@ -1,12 +1,15 @@
 import fastify, { FastifyInstance } from 'fastify';
 import fastifyCompress from 'fastify-compress';
 
+import apiRoute from './router/api';
+
 class App {
   public server: FastifyInstance;
 
   constructor() {
     this.server = fastify({ logger: true });
 
+    this.server.register(apiRoute, { prefix: '/api' });
     this.server.register(fastifyCompress);
   }
 
