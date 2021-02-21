@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 function TopContent() {
-  const checkoutButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const checkoutButton = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
 
-    window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-  };
+      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+    },
+    [],
+  );
 
   return (
     <Container>
