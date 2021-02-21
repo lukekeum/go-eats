@@ -14,6 +14,7 @@ function Login() {
     password: '',
   });
   const setLoginState = useSetRecoilState(signTypeState);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const changeInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +55,7 @@ function Login() {
           value={inputValue.password}
           onChange={changeInput}
         />
+        <ErrorMessage>{errorMessage}</ErrorMessage>
       </InputSection>
       <ButtonSection>
         <Button>Login</Button>
@@ -64,6 +66,11 @@ function Login() {
     </Container>
   );
 }
+
+const ErrorMessage = styled.p`
+  color: #eb4034;
+  margin-left: 0.5rem;
+`;
 
 const ButtonSection = styled.div`
   display: flex;
@@ -103,6 +110,9 @@ const InputSection = styled.div`
   flex-direction: column;
   & input:nth-child(1) {
     margin-top: 0;
+  }
+  & input:nth-child(2) {
+    margin-bottom: 0;
   }
 `;
 

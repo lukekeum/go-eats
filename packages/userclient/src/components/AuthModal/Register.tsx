@@ -18,6 +18,7 @@ function Register() {
     confirmPassword: '',
   });
   const setLoginState = useSetRecoilState(signTypeState);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const changeInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,11 +78,13 @@ function Register() {
           onChange={changeInput}
         />
         <Input
+          type="password"
           name="confirmPassword"
           placeholder="Confirm Password"
           value={inputValue.confirmPassword}
           onChange={changeInput}
         />
+        <ErrorMessage>{errorMessage}</ErrorMessage>
       </InputSection>
       <ButtonSection>
         <Button>Register</Button>
@@ -92,6 +95,11 @@ function Register() {
     </Container>
   );
 }
+
+const ErrorMessage = styled.p`
+  color: #eb4034;
+  margin-left: 0.5rem;
+`;
 
 const ButtonSection = styled.div`
   display: flex;
@@ -131,6 +139,9 @@ const InputSection = styled.div`
   flex-direction: column;
   & input:nth-child(1) {
     margin-top: 0;
+  }
+  & input:nth-child(4) {
+    margin-bottom: 0;
   }
 `;
 
