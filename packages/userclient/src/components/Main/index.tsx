@@ -1,8 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import TopContent from './TopContent';
+import MiddleContent from './MiddleContent';
 
 function MainContainer() {
-  return <StyledContainer></StyledContainer>;
+  return (
+    <StyledContainer>
+      <TopContent />
+      <MiddleContent />
+    </StyledContainer>
+  );
 }
 
 const StyledContainer = styled.div`
