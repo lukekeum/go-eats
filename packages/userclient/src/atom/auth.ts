@@ -25,10 +25,15 @@ export const signinState = atom<ISigninState>({
   key: 'signin',
   default: {
     isLoading: false,
-    isSignedIn: false,
+    isSignedIn: true,
     data: {
       email: null,
-      username: null,
+      username: 'John',
     },
   },
+});
+
+export const userDropdownState = atom<boolean>({
+  key: 'dropdown',
+  default: false,
 });
