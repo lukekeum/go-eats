@@ -2,10 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import TopContent from './TopContent';
 import MiddleContent from './MiddleContent';
+import Navbar from '../Nav';
 
 function MainContainer() {
   return (
     <StyledContainer>
+      <Navbar isMain={true} />
       <TopContent />
       <MiddleContent />
     </StyledContainer>
