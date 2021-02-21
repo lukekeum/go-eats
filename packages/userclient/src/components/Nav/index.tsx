@@ -22,7 +22,7 @@ function Navbar({ isMain = false }: INavbarProps) {
   }, []);
 
   const changeColor = () => {
-    if (window.scrollY < window.innerHeight) {
+    if (window.scrollY < window.innerHeight - 50) {
       return setTopContent(true);
     }
     return setTopContent(false);
