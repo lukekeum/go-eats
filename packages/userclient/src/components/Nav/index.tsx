@@ -43,7 +43,7 @@ const Container = styled.div<{ isTopContent: boolean }>`
   height: 5rem;
   align-items: center;
   justify-content: space-between;
-  background: ${(props) => (props.isTopContent ? 'transparent' : 'white')};
+  background: ${(props) => (props.isTopContent ? 'black' : 'white')};
   color: ${(props) => (props.isTopContent ? 'white' : 'black')};
 `;
 
