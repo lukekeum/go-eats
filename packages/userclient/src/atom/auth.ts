@@ -9,6 +9,11 @@ export interface ISigninState {
   };
 }
 
+export const signModalState = atom<boolean>({
+  key: 'signmodal',
+  default: false,
+});
+
 export const signinState = atom<ISigninState>({
   key: 'signin',
   default: {
