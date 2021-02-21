@@ -1,12 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { signModalState } from '../../atom/auth';
+
 import TopContent from './TopContent';
 import MiddleContent from './MiddleContent';
 import Navbar from '../Nav';
+import AuthModal from '../AuthModal';
 
 function MainContainer() {
+  const isModalOpened = useRecoilValue(signModalState);
   return (
     <StyledContainer>
+      {isModalOpened && <AuthModal />}
       <Navbar isMain={true} />
       <TopContent />
       <MiddleContent />

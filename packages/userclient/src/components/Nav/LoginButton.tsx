@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isTopContentState } from '../../atom/navigation';
+import { signModalState } from '../../atom/auth';
 
 function LoginButton() {
+  const setModalState = useSetRecoilState(signModalState);
   const isTopContent = useRecoilValue(isTopContentState);
-  return <LoginButtonStyle isTopContent={isTopContent}>Login</LoginButtonStyle>;
+
+  const openModal = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      setModalState(true);
+    },
+    [setModalState],
+  );
+
+  return (
+    <LoginButtonStyle onClick={openModal} isTopContent={isTopContent}>
+      Login
+    </LoginButtonStyle>
+  );
 }
 
 const LoginButtonStyle = styled.button<{ isTopContent: boolean }>`
