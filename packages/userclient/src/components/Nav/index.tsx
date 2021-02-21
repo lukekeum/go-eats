@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { userDropdownState } from '../../atom/auth';
 import { isTopContentState } from '../../atom/navigation';
 
 import Logo from './Logo';
 import Profile from './Profile';
+import UserDropMenu from '../UserDropMenu';
 
 interface INavbarProps {
   isMain: boolean;
@@ -12,26 +14,27 @@ interface INavbarProps {
 
 function Navbar({ isMain = false }: INavbarProps) {
   const [isTopComponent, setTopContent] = useRecoilState(isTopContentState);
+  const userDropdownOpened = useRecoilValue(userDropdownState);
 
   useEffect(() => {
     if (!isMain) return;
+    const changeColor = () => {
+      if (window.scrollY < window.innerHeight - 50) {
+        return setTopContent(true);
+      }
+      return setTopContent(false);
+    };
     window.addEventListener('scroll', changeColor);
     return () => {
       window.removeEventListener('scroll', changeColor);
     };
-  }, []);
-
-  const changeColor = () => {
-    if (window.scrollY < window.innerHeight - 50) {
-      return setTopContent(true);
-    }
-    return setTopContent(false);
-  };
+  }, [isMain, setTopContent]);
 
   return (
     <Container isTopContent={isTopComponent}>
       <Logo />
       <Profile />
+      {userDropdownOpened && <UserDropMenu />}
     </Container>
   );
 }

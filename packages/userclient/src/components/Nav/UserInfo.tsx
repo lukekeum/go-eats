@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import { useRecoilValue } from 'recoil';
-import { signinState } from '../../atom/auth';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { signinState, userDropdownState } from '../../atom/auth';
 
 function UserInfo() {
   const { data } = useRecoilValue(signinState);
+  const setDropdownOpen = useSetRecoilState(userDropdownState);
+
+  const toggleDropdown = useCallback(
+    (e: React.MouseEvent<HTMLSpanElement>) => {
+      setDropdownOpen((oldState) => !oldState);
+    },
+    [setDropdownOpen],
+  );
+
   return (
     <Container>
-      <Username>{data.username}</Username>
+      <Username onClick={toggleDropdown}>{data.username}</Username>
     </Container>
   );
 }
