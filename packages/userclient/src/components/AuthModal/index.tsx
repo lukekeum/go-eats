@@ -17,7 +17,7 @@ function AuthModal() {
     };
   }, []);
   return (
-    <>
+    <AuthModalContainer>
       <ModalProvider>
         <Modal>{loginType === 'login' ? <Login /> : <Register />}</Modal>
       </ModalProvider>
@@ -26,9 +26,16 @@ function AuthModal() {
           setModelOpen(false);
         }}
       />
-    </>
+    </AuthModalContainer>
   );
 }
+
+const AuthModalContainer = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+`;
 
 const Modal = styled.div`
   display: flex;
