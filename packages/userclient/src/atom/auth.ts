@@ -25,10 +25,10 @@ export const signinState = atom<ISigninState>({
   key: 'signin',
   default: {
     isLoading: false,
-    isSignedIn: true,
+    isSignedIn: false,
     data: {
       email: null,
-      username: 'John',
+      username: null,
     },
   },
 });
