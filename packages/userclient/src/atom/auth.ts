@@ -10,8 +10,15 @@ export interface ISigninState {
 }
 
 export const signModalState = atom<boolean>({
-  key: 'signmodal',
+  key: 'sign-modal',
   default: false,
+});
+
+type TSignType = 'login' | 'register';
+
+export const signTypeState = atom<TSignType>({
+  key: 'sign-type',
+  default: 'login',
 });
 
 export const signinState = atom<ISigninState>({
