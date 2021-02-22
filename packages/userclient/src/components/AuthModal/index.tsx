@@ -8,14 +8,16 @@ import Register from './Register';
 
 function AuthModal() {
   const setModelOpen = useSetRecoilState(signModalState);
+  const setSignType = useSetRecoilState(signTypeState);
   const loginType = useRecoilValue(signTypeState);
   useEffect(() => {
+    setSignType('login');
     document.body.style.overflow = 'hidden';
 
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, []);
+  }, [setSignType]);
   return (
     <AuthModalContainer>
       <ModalProvider>
