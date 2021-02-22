@@ -15,7 +15,7 @@ class App {
     this.server.register(apiRoute, { prefix: '/api' });
 
     this.server.register(fastifyCompress);
-    this.server.register(fastifyCors, { origin: '*' });
+    this.server.register(fastifyCors, { origin: true, credentials: true });
     this.server.register(fastifyCookie);
     this.server.register(fastifyJWT, {
       secret: process.env.ACCESS_TOKEN_SECRET || '',
