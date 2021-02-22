@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { signModalState, signTypeState } from '../../atom/auth';
 
@@ -32,6 +32,21 @@ function AuthModal() {
   );
 }
 
+const modalPopup = keyframes`
+  0% {
+    transform: scale(0.5, 0.5);
+    opacity: 0.5;
+  }
+  95% {
+    transform: scale(1.01, 1.01);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+`;
+
 const AuthModalContainer = styled.div`
   position: fixed;
   width: 100vw;
@@ -41,11 +56,13 @@ const AuthModalContainer = styled.div`
 
 const Modal = styled.div`
   display: flex;
+  flex-direction: column;
   width: 35rem;
   height: 50rem;
   background: white;
   border-radius: 10px;
   z-index: 20;
+  animation: ${modalPopup} 0.25s;
   @media screen and (max-width: 600px) {
     width: 100%;
     height: 100%;
