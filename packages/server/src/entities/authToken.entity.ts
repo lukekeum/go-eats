@@ -26,6 +26,9 @@ export default class AuthToken extends BaseEntity {
   @UpdateDateColumn()
   updated_at: Date;
 
+  @Column({ type: Boolean, default: false })
+  disabled: boolean;
+
   @ManyToOne((type) => User, (user) => user.uuid, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'fk_user_id' })
   user: User;
