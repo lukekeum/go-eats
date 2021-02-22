@@ -1,5 +1,6 @@
 import fastify, { FastifyInstance } from 'fastify';
 import fastifyCompress from 'fastify-compress';
+import fastifyCors from 'fastify-cors';
 
 import apiRoute from './router/api';
 
@@ -10,7 +11,9 @@ class App {
     this.server = fastify({ logger: true });
 
     this.server.register(apiRoute, { prefix: '/api' });
+
     this.server.register(fastifyCompress);
+    this.server.register(fastifyCors, { origin: '*' });
   }
 
   public async start() {
