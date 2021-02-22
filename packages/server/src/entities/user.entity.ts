@@ -1,3 +1,5 @@
+import app from '@src/app';
+import { access } from 'fs';
 import {
   Entity,
   BaseEntity,
@@ -7,6 +9,7 @@ import {
   UpdateDateColumn,
   OneToOne,
 } from 'typeorm';
+import AuthToken from './authToken.entity';
 import UserProfile from './userProfile.entity';
 
 export enum EUserType {
@@ -37,4 +40,27 @@ export default class User extends BaseEntity {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  async generateAuthToken() {
+    const authToken = new AuthToken();
+    authToken.fk_user_id = this.uuid;
+    await authToken.save();
+
+    const refreshToken = app.server.jwt.sign(
+      { user_id: this.uuid, token_id: authToken.uuid },
+      { subject: 'refresh-token', expiresIn: '30d' }
+    );
+
+    const accessToken = app.server.jwt.sign(
+      {
+        user_id: this.uuid,
+      },
+      {
+        subject: 'access-token',
+        expiresIn: '1h',
+      }
+    );
+
+    return { refreshToken, accessToken };
+  }
 }

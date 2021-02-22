@@ -34,13 +34,18 @@ const signInRoute: FastifyPluginCallback = (fastify, opts, done) => {
       }
 
       const userProfile = await UserProfile.findOne({ fk_user_id: user.uuid });
+      const token = await user.generateAuthToken();
+
+      res.setCookie('token', token.refreshToken);
 
       return res.status(201).send({
         message: 'Signed in successfully',
         data: { email: body.email, username: userProfile?.username },
+        token,
       });
     } catch (err) {
       app.server.log.error(err);
+      return res.status(500).send({ message: err });
     }
   });
 
