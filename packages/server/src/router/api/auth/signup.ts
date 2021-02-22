@@ -1,5 +1,6 @@
 import { FastifyPluginCallback } from 'fastify';
 import { getRepository } from 'typeorm';
+import bcrypt from 'bcrypt';
 
 import User, { EUserType } from '@src/entities/user.entity';
 import app from '@src/app';
@@ -31,9 +32,12 @@ const signUpRoute: FastifyPluginCallback = (fastify, opts, done) => {
         return res.status(401).send({ message: 'Email user already exists' });
       }
 
+      const salt = await bcrypt.genSalt(15);
+      const password = await bcrypt.hash(body.password, salt);
+
       const user = new User();
       user.email = body.email;
-      user.password = body.password;
+      user.password = password;
       user.userType = query.type;
       await user.save();
 
