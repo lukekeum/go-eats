@@ -1,6 +1,8 @@
 import fastify, { FastifyInstance } from 'fastify';
 import fastifyCompress from 'fastify-compress';
 import fastifyCors from 'fastify-cors';
+import fastifyJWT from 'fastify-jwt';
+import fastifyCookie from 'fastify-cookie';
 
 import apiRoute from './router/api';
 
@@ -14,6 +16,10 @@ class App {
 
     this.server.register(fastifyCompress);
     this.server.register(fastifyCors, { origin: '*' });
+    this.server.register(fastifyCookie);
+    this.server.register(fastifyJWT, {
+      secret: process.env.ACCESS_TOKEN_SECRET || '',
+    });
   }
 
   public async start() {
