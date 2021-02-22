@@ -40,6 +40,9 @@ function Register() {
             ...prevState,
             confirmPassword: e.target.value,
           }));
+          if (e.target.value && inputValue.password !== e.target.value) {
+            setErrorMessage('Check your password twice');
+          } else setErrorMessage('');
           break;
         case 'username':
           setInputValue((prevState) => ({
@@ -49,7 +52,7 @@ function Register() {
           break;
       }
     },
-    [setInputValue],
+    [setInputValue, setErrorMessage, inputValue],
   );
 
   return (
@@ -66,7 +69,7 @@ function Register() {
         />
         <Input
           name="username"
-          placeholder="username"
+          placeholder="Username"
           value={inputValue.username}
           onChange={changeInput}
         />
