@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { signinState, signTypeState } from '../../atom/auth';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { signinState, signTypeState, signModalState } from '../../atom/auth';
+import useLogin from '../../hooks/useLogin';
 
 interface IInputValue {
   email: string;
@@ -14,9 +15,11 @@ function Login() {
     password: '',
   });
   const setLoginState = useSetRecoilState(signTypeState);
+  const setModalState = useSetRecoilState(signModalState);
   const [disabled, setDisabled] = useState(false);
-  const [SigninState, setSignInState] = useRecoilState(signinState);
+  const SigninState = useRecoilValue(signinState);
   const [errorMessage, setErrorMessage] = useState('');
+  const [loginFN] = useLogin();
 
   useEffect(() => {
     if (SigninState.isLoading) {
@@ -47,6 +50,18 @@ function Login() {
     [setInputValue],
   );
 
+  const login = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      setErrorMessage('');
+
+      loginFN(inputValue)
+        .then(() => setModalState(false))
+        .catch((err) => setErrorMessage(err.response.data.message));
+    },
+    [setErrorMessage, loginFN, inputValue, setModalState],
+  );
+
   return (
     <Container>
       <TitleSection>
@@ -71,7 +86,7 @@ function Login() {
         <ErrorMessage>{errorMessage}</ErrorMessage>
       </InputSection>
       <ButtonSection>
-        <Button>Login</Button>
+        <Button onClick={login}>Login</Button>
         <span>
           or <span onClick={() => setLoginState('register')}>Register</span>
         </span>
