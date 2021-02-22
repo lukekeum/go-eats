@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { useSetRecoilState } from 'recoil';
-import { signTypeState } from '../../atom/auth';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { signinState, signTypeState } from '../../atom/auth';
 
 interface IInputValue {
   email: string;
@@ -14,7 +14,18 @@ function Login() {
     password: '',
   });
   const setLoginState = useSetRecoilState(signTypeState);
+  const [disabled, setDisabled] = useState(false);
+  const [SigninState, setSignInState] = useRecoilState(signinState);
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    if (SigninState.isLoading) {
+      setDisabled(true);
+    }
+    return () => {
+      setDisabled(false);
+    };
+  }, [SigninState]);
 
   const changeInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,12 +54,14 @@ function Login() {
       </TitleSection>
       <InputSection>
         <Input
+          disabled={disabled}
           name="email"
           placeholder="Email"
           value={inputValue.email}
           onChange={changeInput}
         />
         <Input
+          disabled={disabled}
           type="password"
           name="password"
           placeholder="Password"
