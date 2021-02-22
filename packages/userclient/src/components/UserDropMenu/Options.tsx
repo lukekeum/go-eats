@@ -26,4 +26,4 @@ const Container = styled.div`
   }
 `;
 
-export default Options;
+export default React.memo(Options);
