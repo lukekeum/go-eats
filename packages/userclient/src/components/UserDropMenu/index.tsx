@@ -1,11 +1,13 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { useSetRecoilState } from 'recoil';
-import { userDropdownState } from '../../atom/auth';
+import { signinState, userDropdownState } from '../../atom/auth';
 import Options from './Options';
+import client from '../../lib/client';
 
 function UserDropMenu() {
   const setDropDownState = useSetRecoilState(userDropdownState);
+  const setSignInState = useSetRecoilState(signinState);
 
   const cancelDropMenu = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -16,13 +18,27 @@ function UserDropMenu() {
     [setDropDownState],
   );
 
+  const logout = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      client.post('/auth/logout', {}).then(() => {
+        setSignInState({
+          isLoading: false,
+          isSignedIn: false,
+          data: { username: null, email: null },
+        });
+        setDropDownState(false);
+      });
+    },
+    [setSignInState, setDropDownState],
+  );
+
   return (
     <>
       <Container>
         <Options value="Profile" />
         <Options value="Cart" />
         <Options value="Order Process" />
-        <Options value="Logout" />
+        <Options value="Logout" onClick={logout} />
       </Container>
       <MenuOutContainer onClick={cancelDropMenu} />
     </>

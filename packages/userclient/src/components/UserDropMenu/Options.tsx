@@ -3,11 +3,12 @@ import styled from 'styled-components';
 
 interface IOptionProps {
   value: string;
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-function Options({ value }: IOptionProps) {
+function Options({ value, onClick }: IOptionProps) {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <span>{value}</span>
     </Container>
   );
