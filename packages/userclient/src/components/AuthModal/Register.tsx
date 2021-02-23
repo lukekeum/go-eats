@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { useSetRecoilState } from 'recoil';
-import { signTypeState } from '../../atom/auth';
-
+import { signModalState, signTypeState } from '../../atom/auth';
+import useRegister from '../../hooks/useRegister';
 interface IInputValue {
   email: string;
   username: string;
@@ -18,7 +18,9 @@ function Register() {
     confirmPassword: '',
   });
   const setLoginState = useSetRecoilState(signTypeState);
+  const setModalOpen = useSetRecoilState(signModalState);
   const [errorMessage, setErrorMessage] = useState('');
+  const registerFN = useRegister();
 
   const changeInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +55,31 @@ function Register() {
       }
     },
     [setInputValue, setErrorMessage, inputValue],
+  );
+
+  const onRegister = useCallback(
+    (e: any) => {
+      setErrorMessage('');
+      e.preventDefault();
+
+      if (
+        !inputValue.confirmPassword ||
+        !inputValue.email ||
+        !inputValue.username ||
+        !inputValue.password
+      ) {
+        return setErrorMessage('Field is empty');
+      }
+
+      registerFN(inputValue)
+        .catch((err) => {
+          setErrorMessage(err.response.data.message);
+        })
+        .then(() => {
+          setModalOpen(false);
+        });
+    },
+    [inputValue, setErrorMessage, registerFN, setModalOpen],
   );
 
   return (
@@ -90,7 +117,7 @@ function Register() {
         <ErrorMessage>{errorMessage}</ErrorMessage>
       </InputSection>
       <ButtonSection>
-        <Button>Register</Button>
+        <Button onClick={onRegister}>Register</Button>
         <span>
           or <span onClick={() => setLoginState('login')}>Login</span>
         </span>
