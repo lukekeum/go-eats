@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { useSetRecoilState } from 'recoil';
-import { signModalState, signTypeState } from '../../atom/auth';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { signinState, signModalState, signTypeState } from '../../atom/auth';
 import useRegister from '../../hooks/useRegister';
 interface IInputValue {
   email: string;
@@ -19,8 +19,22 @@ function Register() {
   });
   const setLoginState = useSetRecoilState(signTypeState);
   const setModalOpen = useSetRecoilState(signModalState);
+  const SigninState = useRecoilValue(signinState);
+  const [disabled, setDisabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const emailRef = useRef<HTMLInputElement>(null);
   const registerFN = useRegister();
+
+  useEffect(() => {
+    if (SigninState.isLoading) {
+      setDisabled(true);
+    }
+    const current = emailRef.current;
+    return () => {
+      setDisabled(false);
+      current?.focus();
+    };
+  }, [SigninState]);
 
   const changeInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,9 +72,9 @@ function Register() {
   );
 
   const onRegister = useCallback(
-    (e: any) => {
-      setErrorMessage('');
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      setErrorMessage('');
 
       if (
         !inputValue.confirmPassword ||
@@ -68,6 +82,8 @@ function Register() {
         !inputValue.username ||
         !inputValue.password
       ) {
+        setDisabled(false);
+        emailRef.current?.focus();
         return setErrorMessage('Field is empty');
       }
 
@@ -77,6 +93,10 @@ function Register() {
         })
         .then(() => {
           setModalOpen(false);
+        })
+        .finally(() => {
+          setDisabled(false);
+          emailRef.current?.focus();
         });
     },
     [inputValue, setErrorMessage, registerFN, setModalOpen],
@@ -87,41 +107,48 @@ function Register() {
       <TitleSection>
         <h1>Register</h1>
       </TitleSection>
-      <InputSection>
-        <Input
-          name="email"
-          placeholder="Email"
-          value={inputValue.email}
-          onChange={changeInput}
-        />
-        <Input
-          name="username"
-          placeholder="Username"
-          value={inputValue.username}
-          onChange={changeInput}
-        />
-        <Input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={inputValue.password}
-          onChange={changeInput}
-        />
-        <Input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={inputValue.confirmPassword}
-          onChange={changeInput}
-        />
-        <ErrorMessage>{errorMessage}</ErrorMessage>
-      </InputSection>
-      <ButtonSection>
-        <Button onClick={onRegister}>Register</Button>
-        <span>
-          or <span onClick={() => setLoginState('login')}>Login</span>
-        </span>
-      </ButtonSection>
+      <form onSubmit={onRegister}>
+        <InputSection>
+          <Input
+            disabled={disabled}
+            name="email"
+            placeholder="Email"
+            value={inputValue.email}
+            onChange={changeInput}
+            ref={emailRef}
+          />
+          <Input
+            disabled={disabled}
+            name="username"
+            placeholder="Username"
+            value={inputValue.username}
+            onChange={changeInput}
+          />
+          <Input
+            disabled={disabled}
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={inputValue.password}
+            onChange={changeInput}
+          />
+          <Input
+            disabled={disabled}
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={inputValue.confirmPassword}
+            onChange={changeInput}
+          />
+          <ErrorMessage>{errorMessage}</ErrorMessage>
+        </InputSection>
+        <ButtonSection>
+          <Button type="submit">Register</Button>
+          <span>
+            or <span onClick={() => setLoginState('login')}>Login</span>
+          </span>
+        </ButtonSection>
+      </form>
     </Container>
   );
 }
@@ -144,7 +171,7 @@ const ButtonSection = styled.div`
   }
 `;
 
-const Button = styled.div`
+const Button = styled.button`
   display: flex;
   width: 100%;
   justify-content: center;
@@ -204,6 +231,11 @@ const Container = styled.div`
   width: 25rem;
   margin: 0 auto;
   height: 100%;
+  & form {
+    display: flex;
+    flex-direction: column;
+    flex: 1.65;
+  }
 `;
 
-export default Register;
+export default React.memo(Register);

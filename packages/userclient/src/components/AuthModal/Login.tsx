@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { signinState, signTypeState, signModalState } from '../../atom/auth';
@@ -19,14 +19,17 @@ function Login() {
   const [disabled, setDisabled] = useState(false);
   const SigninState = useRecoilValue(signinState);
   const [errorMessage, setErrorMessage] = useState('');
+  const emailRef = useRef<HTMLInputElement>(null);
   const [loginFN] = useLogin();
 
   useEffect(() => {
     if (SigninState.isLoading) {
       setDisabled(true);
     }
+    const current = emailRef.current;
     return () => {
       setDisabled(false);
+      current?.focus();
     };
   }, [SigninState]);
 
@@ -50,14 +53,18 @@ function Login() {
     [setInputValue],
   );
 
-  const login = useCallback(
-    (e: React.MouseEvent) => {
+  const onLogin = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setErrorMessage('');
 
       loginFN(inputValue)
         .then(() => setModalState(false))
-        .catch((err) => setErrorMessage(err.response.data.message));
+        .catch((err) => setErrorMessage(err.response.data.message))
+        .finally(() => {
+          setDisabled(false);
+          emailRef.current?.focus();
+        });
     },
     [setErrorMessage, loginFN, inputValue, setModalState],
   );
@@ -67,30 +74,33 @@ function Login() {
       <TitleSection>
         <h1>Login</h1>
       </TitleSection>
-      <InputSection>
-        <Input
-          disabled={disabled}
-          name="email"
-          placeholder="Email"
-          value={inputValue.email}
-          onChange={changeInput}
-        />
-        <Input
-          disabled={disabled}
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={inputValue.password}
-          onChange={changeInput}
-        />
-        <ErrorMessage>{errorMessage}</ErrorMessage>
-      </InputSection>
-      <ButtonSection>
-        <Button onClick={login}>Login</Button>
-        <span>
-          or <span onClick={() => setLoginState('register')}>Register</span>
-        </span>
-      </ButtonSection>
+      <form onSubmit={onLogin}>
+        <InputSection>
+          <Input
+            disabled={disabled}
+            name="email"
+            placeholder="Email"
+            value={inputValue.email}
+            onChange={changeInput}
+            ref={emailRef}
+          />
+          <Input
+            disabled={disabled}
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={inputValue.password}
+            onChange={changeInput}
+          />
+          <ErrorMessage>{errorMessage}</ErrorMessage>
+        </InputSection>
+        <ButtonSection>
+          <Button type="submit">Login</Button>
+          <span>
+            or <span onClick={() => setLoginState('register')}>Register</span>
+          </span>
+        </ButtonSection>
+      </form>
     </Container>
   );
 }
@@ -113,7 +123,7 @@ const ButtonSection = styled.div`
   }
 `;
 
-const Button = styled.div`
+const Button = styled.button`
   display: flex;
   width: 100%;
   justify-content: center;
@@ -173,6 +183,11 @@ const Container = styled.div`
   width: 25rem;
   margin: 0 auto;
   height: 100%;
+  & form {
+    display: flex;
+    flex-direction: column;
+    flex: 1.65;
+  }
 `;
 
-export default Login;
+export default React.memo(Login);
