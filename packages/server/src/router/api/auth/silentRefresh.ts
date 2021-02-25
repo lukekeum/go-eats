@@ -23,14 +23,18 @@ const silentRefresh: FastifyPluginCallback = (fastify, opts, done) => {
       const userProfile = await UserProfile.findOne({
         fk_user_id: decodedUser.user_id,
       });
+      const tokenEntity = await AuthToken.findOne(decodedUser.token_id);
 
-      if (!decodedUser || !user) {
+      if (!decodedUser || !user || !tokenEntity || tokenEntity.disabled) {
         return res.status(401).send({ message: 'Invalid token' });
       }
+
+      tokenEntity.disabled = true;
 
       const tokens = await user.generateAuthToken();
       res.setCookie('token', tokens.refreshToken);
 
+      await tokenEntity.save();
       return res.status(201).send({
         data: {
           email: user.email,
