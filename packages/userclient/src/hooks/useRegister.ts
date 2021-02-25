@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { signinState } from '../atom/auth';
 import client from '../lib/client';
@@ -20,7 +19,7 @@ const useRegister = () => {
       client
         .post('/auth/signup', inputValue)
         .then((response) => {
-          onSignUpSuccess(response, inputValue);
+          onSignUpSuccess(inputValue);
           resolve(response);
         })
         .catch((err) => {
@@ -30,10 +29,7 @@ const useRegister = () => {
     });
   };
 
-  const onSignUpSuccess = (
-    response: AxiosResponse,
-    inputValue: IInputValue,
-  ) => {
+  const onSignUpSuccess = (inputValue: IInputValue) => {
     loginFN(inputValue);
   };
 
