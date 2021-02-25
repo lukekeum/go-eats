@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import * as S from './AuthModal.styles';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { signinState, signTypeState, signModalState } from '../../atom/auth';
 import useLogin from '../../hooks/useLogin';
@@ -70,13 +70,13 @@ function Login() {
   );
 
   return (
-    <Container>
-      <TitleSection>
+    <S.Container>
+      <S.TitleSection>
         <h1>Login</h1>
-      </TitleSection>
+      </S.TitleSection>
       <form onSubmit={onLogin}>
-        <InputSection>
-          <Input
+        <S.InputSection>
+          <S.Input
             disabled={disabled}
             name="email"
             placeholder="Email"
@@ -84,7 +84,7 @@ function Login() {
             onChange={changeInput}
             ref={emailRef}
           />
-          <Input
+          <S.Input
             disabled={disabled}
             type="password"
             name="password"
@@ -92,102 +92,17 @@ function Login() {
             value={inputValue.password}
             onChange={changeInput}
           />
-          <ErrorMessage>{errorMessage}</ErrorMessage>
-        </InputSection>
-        <ButtonSection>
-          <Button type="submit">Login</Button>
+          <S.ErrorMessage>{errorMessage}</S.ErrorMessage>
+        </S.InputSection>
+        <S.ButtonSection>
+          <S.Button type="submit">Login</S.Button>
           <span>
             or <span onClick={() => setLoginState('register')}>Register</span>
           </span>
-        </ButtonSection>
+        </S.ButtonSection>
       </form>
-    </Container>
+    </S.Container>
   );
 }
-
-const ErrorMessage = styled.p`
-  color: #eb4034;
-  margin-left: 0.5rem;
-`;
-
-const ButtonSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 2rem;
-  & span span {
-    color: rgba(0, 0, 0, 0.7);
-    cursor: pointer;
-  }
-`;
-
-const Button = styled.button`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.9);
-  color: white;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  padding: 16px;
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  border-radius: 7.5px;
-  &:hover {
-    background: rgba(0, 0, 0, 0.85);
-  }
-`;
-
-const InputSection = styled.div`
-  flex: 1.25;
-  display: flex;
-  flex-direction: column;
-  & input:nth-child(1) {
-    margin-top: 0;
-  }
-  & input:nth-child(2) {
-    margin-bottom: 0;
-  }
-`;
-
-const TitleSection = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  & h1 {
-    font-size: 4rem;
-  }
-`;
-
-const Input = styled.input`
-  padding: 16px;
-  font-size: 1.25rem;
-  outline: none;
-  border: none;
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 7.5px;
-  margin-bottom: 2rem;
-  &:focus {
-    background: rgba(0, 0, 0, 0.075);
-  }
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 25rem;
-  margin: 0 auto;
-  height: 100%;
-  & form {
-    display: flex;
-    flex-direction: column;
-    flex: 1.65;
-  }
-`;
 
 export default React.memo(Login);
