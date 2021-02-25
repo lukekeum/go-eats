@@ -1,17 +1,41 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Button from './Button';
 import Input from './Input';
 
+interface ISearchContext {
+  input: string;
+  setInput: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const SearchContext = React.createContext<ISearchContext | null>(null);
+
 function Searchbox() {
+  const [inputValue, setInputValue] = useState('');
+  const history = useHistory();
+
+  const onSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      return history.push(`/search?type=restaurant&content=${inputValue}`);
+    },
+    [history, inputValue],
+  );
+
   return (
-    <Wrapper>
-      <SearchBoxContainer>
-        <Input />
-        <Button />
-      </SearchBoxContainer>
-    </Wrapper>
+    <SearchContext.Provider
+      value={{ input: inputValue, setInput: setInputValue }}
+    >
+      <Wrapper>
+        <SearchBoxContainer onSubmit={onSubmit}>
+          <Input />
+          <Button />
+        </SearchBoxContainer>
+      </Wrapper>
+    </SearchContext.Provider>
   );
 }
 

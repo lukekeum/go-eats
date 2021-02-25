@@ -4,7 +4,7 @@ import { FaSearch } from 'react-icons/fa';
 
 function Button() {
   return (
-    <SearchButton>
+    <SearchButton type="submit">
       <FaSearch />
     </SearchButton>
   );

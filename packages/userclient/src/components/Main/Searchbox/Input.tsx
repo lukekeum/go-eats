@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useCallback, useContext } from 'react';
 import styled from 'styled-components';
+import { SearchContext } from './index';
 
 function Input() {
-  return <SearchInput placeholder="What food you want to eat" />;
+  const searchValue = useContext(SearchContext);
+  const onChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      searchValue?.setInput(e.target.value);
+    },
+    [searchValue],
+  );
+
+  return (
+    <SearchInput
+      placeholder="What food you want to eat"
+      value={searchValue?.input}
+      onChange={onChange}
+    />
+  );
 }
 
 const SearchInput = styled.input`
