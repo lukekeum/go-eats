@@ -44,7 +44,7 @@ export const InputSection = styled.div`
   & input:nth-child(1) {
     margin-top: 0;
   }
-  & input:nth-child(2) {
+  & input:last-child {
     margin-bottom: 0;
   }
 `;
