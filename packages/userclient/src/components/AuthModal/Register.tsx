@@ -23,7 +23,7 @@ function Register() {
   const [disabled, setDisabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const emailRef = useRef<HTMLInputElement>(null);
-  const registerFN = useRegister();
+  const { register } = useRegister();
 
   useEffect(() => {
     if (SigninState.isLoading) {
@@ -87,7 +87,7 @@ function Register() {
         return setErrorMessage('Field is empty');
       }
 
-      registerFN(inputValue)
+      register(inputValue)
         .catch((err) => {
           setErrorMessage(err.response.data.message);
         })
@@ -99,7 +99,7 @@ function Register() {
           emailRef.current?.focus();
         });
     },
-    [inputValue, setErrorMessage, registerFN, setModalOpen],
+    [inputValue, setErrorMessage, register, setModalOpen],
   );
 
   return (

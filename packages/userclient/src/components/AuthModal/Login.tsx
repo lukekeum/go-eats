@@ -20,7 +20,7 @@ function Login() {
   const SigninState = useRecoilValue(signinState);
   const [errorMessage, setErrorMessage] = useState('');
   const emailRef = useRef<HTMLInputElement>(null);
-  const [loginFN] = useLogin();
+  const { login } = useLogin();
 
   useEffect(() => {
     if (SigninState.isLoading) {
@@ -58,7 +58,7 @@ function Login() {
       e.preventDefault();
       setErrorMessage('');
 
-      loginFN(inputValue)
+      login(inputValue)
         .then(() => setModalState(false))
         .catch((err) => setErrorMessage(err.response.data.message))
         .finally(() => {
@@ -66,7 +66,7 @@ function Login() {
           emailRef.current?.focus();
         });
     },
-    [setErrorMessage, loginFN, inputValue, setModalState],
+    [setErrorMessage, login, inputValue, setModalState],
   );
 
   return (

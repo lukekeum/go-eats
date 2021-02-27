@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { signinState } from '../atom/auth';
 import client from '../lib/client';
@@ -11,9 +12,9 @@ interface IInputValue {
 
 const useRegister = () => {
   const setLoginInfo = useSetRecoilState(signinState);
-  const [loginFN] = useLogin();
+  const { login } = useLogin();
 
-  const register = (inputValue: IInputValue) => {
+  const register = (inputValue: IInputValue): Promise<AxiosResponse> => {
     setLoginInfo((prev) => ({ ...prev, isLoading: true }));
     return new Promise((resolve, reject) => {
       client
@@ -30,10 +31,10 @@ const useRegister = () => {
   };
 
   const onSignUpSuccess = (inputValue: IInputValue) => {
-    loginFN(inputValue);
+    login(inputValue);
   };
 
-  return register;
+  return { register };
 };
 
 export default useRegister;

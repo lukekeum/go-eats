@@ -13,7 +13,7 @@ interface IInputValue {
 const useLogin = () => {
   const setLoginInfo = useSetRecoilState(signinState);
 
-  const login = (inputValue: IInputValue) => {
+  const login = (inputValue: IInputValue): Promise<AxiosResponse> => {
     setLoginInfo((prev) => ({ ...prev, isLoading: true }));
     return new Promise((resolve, reject) => {
       client
@@ -29,13 +29,18 @@ const useLogin = () => {
     });
   };
 
-  const onSilentRefresh = () => {
-    return client
-      .post('/auth/silent-refresh', {})
-      .then(onLoginSuccess)
-      .catch((err) => {
-        console.log(err);
-      });
+  const onSilentRefresh = (): Promise<AxiosResponse> => {
+    return new Promise((resolve, reject) => {
+      client
+        .post('/auth/silent-refresh', {})
+        .then((response) => {
+          onLoginSuccess(response);
+          resolve(response);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   };
 
   const onLoginSuccess = (response: AxiosResponse) => {
@@ -52,10 +57,10 @@ const useLogin = () => {
       },
     });
 
-    setTimeout(onSilentRefresh, JWT_EXPIRES_TIME - 60 * 1000);
+    return setTimeout(onSilentRefresh, JWT_EXPIRES_TIME - 60 * 1000);
   };
 
-  return [login, onSilentRefresh] as const;
+  return { login, onSilentRefresh };
 };
 
 export default useLogin;
