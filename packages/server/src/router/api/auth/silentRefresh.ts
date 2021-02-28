@@ -1,12 +1,7 @@
 import AuthToken from '@src/entities/authToken.entity';
-import User from '@src/entities/user.entity';
+import User, { IUserTokenCookie } from '@src/entities/user.entity';
 import UserProfile from '@src/entities/userProfile.entity';
 import { FastifyPluginCallback } from 'fastify';
-
-interface IUserTokenCookie {
-  user_id: string;
-  token_id: string;
-}
 
 const silentRefresh: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.post('/', async (req, res) => {

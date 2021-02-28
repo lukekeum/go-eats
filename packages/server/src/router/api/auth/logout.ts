@@ -1,10 +1,6 @@
-import AuthToken from '@src/entities/authToken.entity';
 import { FastifyPluginCallback } from 'fastify';
-
-interface IUserTokenCookie {
-  user_id: string;
-  token_id: string;
-}
+import AuthToken from '@src/entities/authToken.entity';
+import { IUserTokenCookie } from '@src/entities/user.entity';
 
 const logoutRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.post('/', async (req, res) => {

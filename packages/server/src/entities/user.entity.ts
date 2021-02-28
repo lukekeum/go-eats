@@ -18,6 +18,11 @@ export enum EUserType {
   MARKETER = 'marketer',
 }
 
+export interface IUserTokenCookie {
+  user_id: string;
+  token_id: string;
+}
+
 @Entity('users')
 export default class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
