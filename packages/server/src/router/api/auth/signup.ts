@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import User, { EUserType } from '@src/entities/user.entity';
 import app from '@src/app';
 import UserProfile from '@src/entities/userProfile.entity';
+import UserSetting from '@src/entities/userSetting.entity';
 
 interface ISignupQuery {
   type: EUserType;
@@ -45,6 +46,10 @@ const signUpRoute: FastifyPluginCallback = (fastify, opts, done) => {
       userProfile.username = body.username;
       userProfile.fk_user_id = user.uuid;
       await getRepository(UserProfile).save(userProfile);
+
+      const userSetting = new UserSetting();
+      userSetting.fk_user_id = user.uuid;
+      await getRepository(UserSetting).save(userSetting);
 
       return res.status(201).send({
         message: 'Signed up successfully',
