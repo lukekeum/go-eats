@@ -15,8 +15,6 @@ const authHook: FastifyPluginCallback = (fastify, opts, done) => {
 
     const decodedToken = <{ user_id: string }>fastify.jwt.decode(token);
 
-    console.log(decodedToken);
-
     if (!decodedToken) {
       return;
     }
