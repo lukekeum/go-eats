@@ -20,7 +20,7 @@ const meRoute: FastifyPluginCallback = (fastify, opts, done) => {
       });
 
       if (!decodedToken || !user || !userProfile) {
-        return res.status(401).send({ message: 'Invalid TOken' });
+        return res.status(401).send({ message: 'Invalid Token' });
       }
 
       return res.status(201).send({
