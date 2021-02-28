@@ -38,6 +38,7 @@ const signInRoute: FastifyPluginCallback = (fastify, opts, done) => {
 
       res.setCookie('token', token.refreshToken, {
         httpOnly: true,
+        path: '/',
       });
 
       return res.status(201).send({

@@ -27,7 +27,10 @@ const silentRefresh: FastifyPluginCallback = (fastify, opts, done) => {
       tokenEntity.disabled = true;
 
       const tokens = await user.generateAuthToken();
-      res.setCookie('token', tokens.refreshToken);
+      res.setCookie('token', tokens.refreshToken, {
+        httpOnly: true,
+        path: '/',
+      });
 
       await tokenEntity.save();
       return res.status(201).send({
