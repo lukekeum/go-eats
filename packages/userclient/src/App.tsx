@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import useLogin from './hooks/useLogin';
 import Main from './pages/Main';
+import Setting from './pages/Setting';
 import './styles/response.scss';
 
 axios.defaults.withCredentials = true;
@@ -18,6 +19,7 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Main} />
+        <Route exact path="/settings" component={Setting} />
       </Switch>
     </BrowserRouter>
   );
