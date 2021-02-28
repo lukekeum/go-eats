@@ -1,14 +1,17 @@
 import AuthToken from '@src/entities/authToken.entity';
 import User, { IUserTokenCookie } from '@src/entities/user.entity';
 import UserProfile from '@src/entities/userProfile.entity';
+import auth from '@src/handlers/auth';
 import { FastifyPluginCallback } from 'fastify';
 
 const silentRefresh: FastifyPluginCallback = (fastify, opts, done) => {
-  fastify.post('/', async (req, res) => {
-    const { token: refreshToken } = <{ token: string | undefined }>req.cookies;
+  fastify.register(auth);
 
-    if (!refreshToken) {
-      return res.status(401).send({ message: 'Token not found' });
+  fastify.post('/', async (req, res) => {
+    const { token: refreshToken } = <{ token: string }>req.cookies;
+
+    if (!req.token || !refreshToken) {
+      return res.status(401).send({ message: 'Invalid Token' });
     }
 
     try {
