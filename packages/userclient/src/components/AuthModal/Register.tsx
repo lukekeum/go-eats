@@ -88,11 +88,11 @@ function Register() {
       }
 
       register(inputValue)
-        .catch((err) => {
-          setErrorMessage(err.response.data.message);
-        })
         .then(() => {
           setModalOpen(false);
+        })
+        .catch((err) => {
+          setErrorMessage(err.response.data.message);
         })
         .finally(() => {
           setDisabled(false);
