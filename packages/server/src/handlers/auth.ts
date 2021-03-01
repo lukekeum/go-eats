@@ -1,10 +1,9 @@
-import { IUserTokenCookie } from '@src/entities/user.entity';
 import { FastifyPluginCallback } from 'fastify';
 import fp from 'fastify-plugin';
 
 const authHook: FastifyPluginCallback = (fastify, opts, done) => {
-  fastify.decorateRequest('token', {});
-  fastify.addHook('preParsing', async (req, res) => {
+  fastify.decorateRequest('token', null);
+  fastify.addHook('onRequest', async (req, res) => {
     const authToken = req.headers['authorization'];
 
     if (!authToken || Array.isArray(authToken)) {
