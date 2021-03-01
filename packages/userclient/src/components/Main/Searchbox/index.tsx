@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import palette from '../../../lib/palette';
 
 import Button from './Button';
 import Input from './Input';
@@ -45,7 +46,7 @@ const Wrapper = styled.div`
   justify-content: center;
   flex-direction: column;
   height: 50vh;
-  background: #f5f5f5;
+  background: ${palette.grey[100]};
   width: 100vw;
   @media screen and (max-width: 760px) {
     display: none;
@@ -53,7 +54,7 @@ const Wrapper = styled.div`
 `;
 
 const SearchBoxContainer = styled.form`
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid ${palette.black};
   display: flex;
   padding: 10px;
   width: 30rem;

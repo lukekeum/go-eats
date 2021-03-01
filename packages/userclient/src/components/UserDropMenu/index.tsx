@@ -4,6 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import { signinState, userDropdownState } from '../../atom/auth';
 import Options from './Options';
 import client from '../../lib/client';
+import palette from '../../lib/palette';
 
 function UserDropMenu() {
   const setDropDownState = useSetRecoilState(userDropdownState);
@@ -61,7 +62,7 @@ const Container = styled.div`
   top: 4rem;
   right: 3.3rem;
   border-radius: 5px;
-  background: white;
+  background: ${palette.white};
   padding: 8px 8px;
   & div:last-child {
     border: none;

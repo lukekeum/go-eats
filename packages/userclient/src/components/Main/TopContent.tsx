@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import palette from '../../lib/palette';
 
 function TopContent() {
   const checkoutButton = useCallback(
@@ -24,18 +25,18 @@ function TopContent() {
 const Button = styled.button`
   margin-top: 3rem;
   outline: none;
-  border: 2px solid white;
+  border: 2px solid ${palette.white};
   border-radius: 50px;
-  color: black;
+  color: ${palette.black};
   font-size: 1.5rem;
   font-weight: 700;
   padding: 0.75rem 2rem 0.75rem 2rem;
   cursor: pointer;
-  background: white;
+  background: ${palette.white};
   transition: all 0.25s;
   &:hover {
     background: black;
-    color: white;
+    color: ${palette.white};
   }
 `;
 
@@ -64,8 +65,8 @@ const Container = styled.div`
   height: 100vh;
   justify-content: center;
   align-items: center;
-  background-color: black;
-  color: white;
+  background-color: ${palette.black};
+  color: ${palette.white};
 `;
 
 export default TopContent;

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
+import palette from '../../../lib/palette';
 
 function Button() {
   return (
@@ -15,7 +16,7 @@ const SearchButton = styled.button`
   font-size: 1.25rem;
   padding: 12px 16px;
   cursor: pointer;
-  background: white;
+  background: ${palette.white};
   outline: none;
   border: none;
   background: transparent;

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isTopContentState } from '../../atom/navigation';
 import { signModalState } from '../../atom/auth';
+import palette from '../../lib/palette';
 
 function LoginButton() {
   const setModalState = useSetRecoilState(signModalState);
@@ -26,9 +27,13 @@ function LoginButton() {
 const LoginButtonStyle = styled.button<{ isTopContent: boolean }>`
   outline: none;
   border: ${(props) =>
-    props.isTopContent ? '2px solid white' : '2px solid black'};
-  background: ${(props) => (props.isTopContent ? 'black' : 'white')};
-  color: ${(props) => (props.isTopContent ? 'white' : 'black')};
+    props.isTopContent
+      ? `2px solid ${palette.white}`
+      : `2px solid ${palette.black}`};
+  background: ${(props) =>
+    props.isTopContent ? `${palette.black}` : `${palette.white}`};
+  color: ${(props) =>
+    props.isTopContent ? `${palette.white}` : `${palette.black}`};
   font-size: 1.2rem;
   padding: 0.4rem 1.2rem 0.4rem 1.2rem;
   border-radius: 25px;
@@ -36,8 +41,10 @@ const LoginButtonStyle = styled.button<{ isTopContent: boolean }>`
   cursor: pointer;
   transition: all 0.25s;
   &:hover {
-    background: ${(props) => (props.isTopContent ? 'white' : 'black')};
-    color: ${(props) => (props.isTopContent ? 'black' : 'white')};
+    background: ${(props) =>
+      props.isTopContent ? `${palette.white}` : `${palette.black}`};
+    color: ${(props) =>
+      props.isTopContent ? `${palette.black}` : `${palette.white}`};
   }
 `;
 export default LoginButton;

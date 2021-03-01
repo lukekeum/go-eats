@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import palette from '../../lib/palette';
 
 interface IOptionProps {
   value: string;
@@ -19,10 +20,10 @@ const Container = styled.div`
   align-items: center;
   padding: 8px;
   cursor: pointer;
-  border-bottom: 1px solid #cfcfcf;
+  border-bottom: 1px solid ${palette.grey[100]};
   color: black;
   &:hover {
-    background: #cfcfcf;
+    background: ${palette.grey[100]};
     border-radius: 5px;
   }
 `;

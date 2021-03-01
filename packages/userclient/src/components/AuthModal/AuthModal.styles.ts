@@ -1,7 +1,9 @@
 import styled from 'styled-components';
+import palette from '../../lib/palette';
 
 export const ErrorMessage = styled.p`
-  color: #eb4034;
+  color: ${palette.red[400]};
+  margin: 0;
   margin-left: 0.5rem;
 `;
 
@@ -13,7 +15,7 @@ export const ButtonSection = styled.div`
   width: 100%;
   margin-bottom: 2rem;
   & span span {
-    color: rgba(0, 0, 0, 0.7);
+    color: ${palette.grey[900]};
     cursor: pointer;
   }
 `;
@@ -44,8 +46,8 @@ export const InputSection = styled.div`
   & input:nth-child(1) {
     margin-top: 0;
   }
-  & input:last-child {
-    margin-bottom: 0;
+  & input:nth-last-child(1) {
+    margin-bottom: 0rem;
   }
 `;
 
@@ -69,6 +71,9 @@ export const Input = styled.input`
   margin-bottom: 2rem;
   &:focus {
     background: rgba(0, 0, 0, 0.075);
+  }
+  &:last-child {
+    margin-bottom: 0;
   }
 `;
 

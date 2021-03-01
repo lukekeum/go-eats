@@ -7,6 +7,7 @@ import { isTopContentState } from '../../atom/navigation';
 import Logo from './Logo';
 import Profile from './Profile';
 import UserDropMenu from '../UserDropMenu';
+import palette from '../../lib/palette';
 
 interface INavbarProps {
   isMain: boolean;
@@ -46,8 +47,10 @@ const Container = styled.div<{ isTopContent: boolean }>`
   height: 5rem;
   align-items: center;
   justify-content: space-between;
-  background: ${(props) => (props.isTopContent ? 'black' : 'white')};
-  color: ${(props) => (props.isTopContent ? 'white' : 'black')};
+  background: ${(props) =>
+    props.isTopContent ? `${palette.black}` : `${palette.white}`};
+  color: ${(props) =>
+    props.isTopContent ? `${palette.white}` : `${palette.black}`};
 `;
 
 export default Navbar;
