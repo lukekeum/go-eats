@@ -5,6 +5,7 @@ import fastifyJWT from 'fastify-jwt';
 import fastifyCookie from 'fastify-cookie';
 
 import apiRoute from './router/api';
+import rootRoute from './router';
 
 class App {
   public server: FastifyInstance;
@@ -12,14 +13,14 @@ class App {
   constructor() {
     this.server = fastify({ logger: true });
 
-    this.server.register(apiRoute, { prefix: '/api' });
-
     this.server.register(fastifyCompress);
     this.server.register(fastifyCors, { origin: true, credentials: true });
     this.server.register(fastifyCookie);
     this.server.register(fastifyJWT, {
       secret: process.env.ACCESS_TOKEN_SECRET || '',
     });
+
+    this.server.register(rootRoute, { prefix: '/' });
   }
 
   public async start() {
