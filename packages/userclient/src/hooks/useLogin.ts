@@ -46,7 +46,7 @@ const useLogin = () => {
   const onLoginSuccess = (response: AxiosResponse) => {
     const { token } = response.data;
 
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    client.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     setLoginInfo({
       isLoading: false,

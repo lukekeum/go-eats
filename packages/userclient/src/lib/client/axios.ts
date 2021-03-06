@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 class Axios {
-  private axios: AxiosInstance;
+  public axios: AxiosInstance;
 
   constructor() {
     this.axios = axios.create({
