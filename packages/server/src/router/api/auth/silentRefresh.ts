@@ -5,12 +5,10 @@ import auth from '@src/handlers/auth';
 import { FastifyPluginCallback } from 'fastify';
 
 const silentRefresh: FastifyPluginCallback = (fastify, opts, done) => {
-  fastify.register(auth);
-
   fastify.post('/', async (req, res) => {
     const { token: refreshToken } = <{ token: string }>req.cookies;
 
-    if (!req.token || !refreshToken) {
+    if (!refreshToken) {
       return res.status(401).send({ message: 'Invalid Token' });
     }
 
