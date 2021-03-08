@@ -313,7 +313,7 @@ export const lightIcons = {
   inactive: 'rgba(255, 255, 255, 0.5)',
 };
 
-export default {
+const palette = {
   red,
   pink,
   purple,
@@ -340,3 +340,5 @@ export default {
   darkIcons,
   lightIcons,
 };
+
+export default palette;
