@@ -1,7 +1,12 @@
 import React from 'react';
+import Profile from './Proile';
 
 function SettingComponent() {
-  return <div></div>;
+  return (
+    <div>
+      <Profile />
+    </div>
+  );
 }
 
 export default SettingComponent;
