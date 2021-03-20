@@ -47,6 +47,7 @@ const Container = styled.div<{ isTopContent: boolean }>`
   height: 5rem;
   align-items: center;
   justify-content: space-between;
+  transition: all 0.2s;
   background: ${(props) =>
     props.isTopContent ? `${palette.black}` : `${palette.white}`};
   color: ${(props) =>
