@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { signinState } from '../atom/auth';
 import client from '../lib/client';
